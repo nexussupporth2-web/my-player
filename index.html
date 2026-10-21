@@ -3,23 +3,24 @@
 <title>Offline Media Player</title><link rel="manifest" href="manifest.webmanifest">
 <meta name="theme-color" content="#ffffff"><link rel="icon" href="icon.svg">
 <style>
-:root{--cover:url(icon.svg);--bg:#f0f0f0;--bar:#fff;--fg:#1b1b1b;--mut:#666;--acc:#ff8800;--bd:#b9b9b9;--onacc:#fff}
-:root[data-theme=mint]{--bg:#e6f5ee;--bar:#f4fbf8;--acc:#8fd4b5;--bd:#a9cdbd;--onacc:#1f2d27}
-:root[data-theme=lavender]{--bg:#ece8f7;--bar:#f7f5fd;--acc:#b9a6e8;--bd:#beb4dc;--onacc:#2a2540}
-:root[data-theme=peach]{--bg:#fbece4;--bar:#fff7f2;--acc:#f5b69a;--bd:#e0bfae;--onacc:#3b2820}
-:root[data-theme=sky]{--bg:#e4f1fb;--bar:#f3f9fe;--acc:#9fcdf0;--bd:#afc8dc;--onacc:#1d2e3c}
-:root[data-theme=rose]{--bg:#fbe8ee;--bar:#fff5f8;--acc:#f2a9c0;--bd:#deb5c2;--onacc:#3d2330}
-:root[data-theme=lemon]{--bg:#fbf6d9;--bar:#fffdf0;--acc:#f1dc7a;--bd:#d9d0a0;--onacc:#3a3515}
+:root{--cover:url(icon.svg);--bg:#f0f0f0;--bar:#fff;--fg:#1b1b1b;--mut:#666;--acc:#ff8800;--bd:#b9b9b9;--onacc:#fff;--ic:#e67300}
+:root[data-theme=mint]{--bg:#e6f5ee;--bar:#f4fbf8;--acc:#8fd4b5;--bd:#a9cdbd;--onacc:#1f2d27;--ic:#2f8f6b}
+:root[data-theme=lavender]{--bg:#ece8f7;--bar:#f7f5fd;--acc:#b9a6e8;--bd:#beb4dc;--onacc:#2a2540;--ic:#7b61c9}
+:root[data-theme=peach]{--bg:#fbece4;--bar:#fff7f2;--acc:#f5b69a;--bd:#e0bfae;--onacc:#3b2820;--ic:#d9784f}
+:root[data-theme=sky]{--bg:#e4f1fb;--bar:#f3f9fe;--acc:#9fcdf0;--bd:#afc8dc;--onacc:#1d2e3c;--ic:#3a86c4}
+:root[data-theme=rose]{--bg:#fbe8ee;--bar:#fff5f8;--acc:#f2a9c0;--bd:#deb5c2;--onacc:#3d2330;--ic:#d6527e}
+:root[data-theme=lemon]{--bg:#fbf6d9;--bar:#fffdf0;--acc:#f1dc7a;--bd:#d9d0a0;--onacc:#3a3515;--ic:#b39a1a}
 [hidden]{display:none!important}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;height:100%;background:var(--bg);color:var(--fg);font:14px system-ui,sans-serif}
-body{display:flex;flex-direction:column;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}
+body{display:flex;justify-content:center;align-items:center;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}
+#app{--ah:min(150vw,100dvh);width:calc(var(--ah)/1.5);height:var(--ah);display:flex;flex-direction:column;background:var(--bg);overflow:hidden;border:1px solid var(--bd)}
 #top{display:flex;align-items:center;gap:8px;padding:6px 10px;background:var(--bar)}#top b{font-weight:500}#top button{margin-left:auto;padding:3px 9px}
-#menu{display:flex;overflow-x:auto;background:var(--bar);border-bottom:1px solid #ddd;white-space:nowrap}#menu span{flex:1;text-align:center;font-size:21px;padding:8px 0}#menu span:active{background:#0000001a}
+#menu{display:flex;overflow-x:auto;background:var(--bar);border-bottom:1px solid #ddd;white-space:nowrap}#menu span{flex:1;text-align:center;padding:9px 0;color:var(--ic)}#menu svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:middle}#menu span:active{background:#0000001a}
 #dd{position:fixed;z-index:20;background:var(--bar);border:1px solid var(--bd);box-shadow:0 4px 14px #0004;min-width:210px;max-width:85vw}#dd div{padding:12px 16px;border-bottom:1px solid #eee}#dd div:active{background:#0000001a}
-#stage{position:relative;background:#000;aspect-ratio:16/9;max-height:42vh;width:100%;touch-action:none;overflow:hidden}
-#stage.tall{aspect-ratio:auto;height:70vh;max-height:70vh}
-#stage:fullscreen{max-height:none;aspect-ratio:auto;height:100%}
+#stage{position:relative;background:#000;aspect-ratio:16/9;width:100%;touch-action:none;overflow:hidden}
+#stage.tall{aspect-ratio:auto;width:100%;height:calc(var(--ah)*.5)}
+#stage:fullscreen{max-height:none;aspect-ratio:auto;width:100%;height:100%}
 #stage.cov{background:#000 var(--cover) center/contain no-repeat}
 video{width:100%;height:100%;object-fit:contain;display:block}
 #yt{position:absolute;inset:0;display:none;background:#000}#yt iframe{width:100%;height:100%;border:0}
@@ -30,11 +31,11 @@ video{width:100%;height:100%;object-fit:contain;display:block}
 #seekrow{display:flex;align-items:center;gap:8px;padding:6px 10px 0}#seekrow input{flex:1;accent-color:var(--acc)}
 #ctl{display:flex;align-items:center;gap:8px;padding:6px 10px;flex-wrap:wrap}
 .g{display:flex;border:1px solid var(--bd);border-radius:6px;overflow:hidden}.g button{border:0;border-radius:0;border-right:1px solid var(--bd)}.g button:last-child{border-right:0}
-button,select,input[type=text]{background:linear-gradient(#fcfcfc,#e6e6e6);color:var(--fg);border:1px solid var(--bd);border-radius:6px;padding:8px 11px;font:inherit}
+button,select,input[type=text],input[type=password]{background:linear-gradient(#fcfcfc,#e6e6e6);color:var(--fg);border:1px solid var(--bd);border-radius:6px;padding:8px 11px;font:inherit}
 button.p,button.on{background:var(--acc);color:var(--onacc);border-color:#0003}
 #pp{width:44px;height:44px;font-size:18px;padding:0}#vol{width:80px;accent-color:var(--acc)}
-#foot{padding:7px 10px;text-align:center;font-size:12px;color:var(--mut);background:var(--bar);border-top:1px solid #0001}
-#main{flex:1;overflow:auto;padding:0 10px 14px;background:var(--bar);border-top:1px solid #ddd}
+#foot{user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;touch-action:none;padding:7px 10px;text-align:center;font-size:12px;color:var(--mut);background:var(--bar);border-top:1px solid #0001}
+#main{flex:1;min-height:0;overflow:auto;padding:0 10px 14px;background:var(--bar);border-top:1px solid #ddd}
 h3{margin:12px 0 6px;font-size:12px;color:var(--mut);text-transform:uppercase;letter-spacing:.06em}
 #eq{display:flex;gap:4px;justify-content:space-between;height:130px}
 .b{flex:1;display:flex;flex-direction:column;align-items:center;font-size:10px;color:var(--mut)}
@@ -45,8 +46,9 @@ h3{margin:12px 0 6px;font-size:12px;color:var(--mut);text-transform:uppercase;le
 #set,.ask{position:fixed;inset:0;background:#0007;z-index:30;display:flex;align-items:center;justify-content:center}
 .box{background:var(--bar);padding:16px;border-radius:12px;width:88%;max-width:380px;max-height:90vh;overflow:auto}.box label{display:block;margin:12px 0 5px;color:var(--mut);font-size:13px}.box input[type=text]{width:100%}input[type=color]{width:60px;height:36px;padding:0;border:0;background:none}
 </style></head><body>
+<div id="app">
 <div id="top"><img src="icon.svg" width="18" height="18" alt=""><b id="nm"></b><button id="gear">⚙</button></div>
-<nav id="menu"><span data-m="Media" title="Media">📁</span><span data-m="Playback" title="Playback">▶️</span><span data-m="Audio" title="Audio">🔊</span><span data-m="Video" title="Video">🎬</span><span data-m="Subtitle" title="Subtitle">💬</span><span data-m="Tools" title="Tools">🛠️</span><span data-m="View" title="View">👁️</span><span data-m="Help" title="Help">❓</span></nav>
+<nav id="menu"><span data-m="Media" title="Media" aria-label="Media"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></span><span data-m="Playback" title="Playback" aria-label="Playback"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4l13 8-13 8z"/></svg></span><span data-m="Audio" title="Audio" aria-label="Audio"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9z"/><path d="M16 9a4 4 0 0 1 0 6M18.5 6.5a8 8 0 0 1 0 11"/></svg></span><span data-m="Video" title="Video" aria-label="Video"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="18" height="14" rx="2"/><path d="M3 11h18M7 6l-2 5M12 6l-2 5M17 6l-2 5"/></svg></span><span data-m="Subtitle" title="Subtitle" aria-label="Subtitle"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H10l-5 4v-4H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z"/><path d="M7 10h10M7 13h6"/></svg></span><span data-m="Tools" title="Tools" aria-label="Tools"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></span><span data-m="View" title="View" aria-label="View"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></span><span data-m="Help" title="Help" aria-label="Help"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.4-1 .9-1 1.7M12 17h.01"/></svg></span></nav>
 <div id="dd" hidden></div>
 <div id="set" hidden><div class="box"><b>Settings</b>
 <label>Player name</label><input id="sname" type="text" maxlength="30">
@@ -74,12 +76,13 @@ h3{margin:12px 0 6px;font-size:12px;color:var(--mut);text-transform:uppercase;le
 <button id="slp" hidden>😴 Off</button></div>
 <button id="open" hidden></button><button id="scan" hidden></button><input id="df" type="file" webkitdirectory multiple hidden><input id="f" type="file" accept="audio/*,video/*,.mkv,.flac" multiple hidden><input id="subf" type="file" accept=".srt,.vtt" hidden>
 <div id="main">
-<section id="linkp" hidden><h3>URL</h3><div class="row"><input id="url" type="text" placeholder="Paste your link here"><button id="go">Play</button></div></section>
+<section id="linkp"><h3>URL</h3><div class="row"><input id="url" type="text" placeholder="Paste your link here"><button id="go">Play</button></div></section>
 <section id="eqp" hidden><h3>Equalizer</h3><div id="eq"></div><h3>Presets</h3><div id="pre"></div></section>
 <section id="plp"><h3>Playlist</h3>
 <div class="row" style="margin-bottom:6px"><select id="plsel" style="flex:1"></select><button id="pladd">＋</button><button id="pldel">🗑</button></div><div id="q"></div></section>
 </div>
 <footer id="foot"></footer>
+</div>
 <script>
 const $=s=>document.querySelector(s),v=$('#v'),HZ=[32,64,125,250,500,1000,2000,4000,8000,16000];
 const fmt=s=>isFinite(s)?Math.floor(s/60)+':'+String(Math.floor(s%60)).padStart(2,'0'):'0:00';
@@ -167,9 +170,9 @@ tx('readonly',s=>s.getAll()).then(l=>{Q=l.map(r=>({...r,url:r.blob?URL.createObj
 // settings
 const S=(k,d)=>{try{return localStorage[k]||d}catch{return d}},W=(k,x)=>{try{x==null?localStorage.removeItem(k):localStorage[k]=x}catch{}};
 const cov=()=>$('#stage').classList.toggle('cov',!v.videoWidth);v.addEventListener('loadedmetadata',cov);v.addEventListener('emptied',cov);
-function applySet(){const n=S('pname','Offline Media Player');$('#nm').textContent=n;document.title=n;$('#foot').textContent='Designed by: '+S('pfoot','......');const R=document.documentElement.style;const pa=S('pacc','');pa?R.setProperty('--acc',pa):R.removeProperty('--acc');document.documentElement.dataset.theme=S('pth','classic');const c=S('pcov','');R.setProperty('--cover',c?'url("'+c+'")':'url(icon.svg)');cov();const ic=S('pico','');$('#top img').src=ic||'icon.svg';document.querySelector('link[rel=icon]').href=ic||'icon.svg';const cs=getComputedStyle(document.documentElement);vcol=(cs.getPropertyValue('--acc')||'#ff8800').trim();vst=S('pvs','bars');cv.hidden=S('pviz','1')!='1';cv.style.height=vst=='circle'?'100%':'';const mt=document.querySelector('meta[name=theme-color]');if(mt)mt.content=(cs.getPropertyValue('--bar')||'#fff').trim()}
-$('#gear').onclick=()=>{buildTh();$('#sfoot').value=S('pfoot','');$('#sviz').checked=S('pviz','1')=='1';$('#svs').value=S('pvs','bars');$('#sname').value=S('pname','Offline Media Player');$('#sacc').value=S('pacc','#ff8800');$('#sspd').value=S('pspd','1');$('#sskip').value=S('pskip','10');$('#sres').value=S('pres','always');$('#srot').checked=S('prot','1')=='1';$('#smin').value=S('pmin','60');$('#scall').checked=S('pcall','1')=='1';$('#set').hidden=false};
-$('#sdone').onclick=()=>$('#set').hidden=true;
+function applySet(){const n=S('pname','Offline Media Player');$('#nm').textContent=n;document.title=n;$('#foot').textContent='Designed by: '+S('pfoot','......');const R=document.documentElement.style;const pa=S('pacc','');if(pa){R.setProperty('--acc',pa);R.setProperty('--ic',pa)}else{R.removeProperty('--acc');R.removeProperty('--ic')}document.documentElement.dataset.theme=S('pth','classic');const c=S('pcov','');R.setProperty('--cover',c?'url("'+c+'")':'url(icon.svg)');cov();const ic=S('pico','');$('#top img').src=ic||'icon.svg';document.querySelector('link[rel=icon]').href=ic||'icon.svg';const cs=getComputedStyle(document.documentElement);vcol=(cs.getPropertyValue('--acc')||'#ff8800').trim();vst=S('pvs','bars');cv.hidden=S('pviz','1')!='1';cv.style.height=vst=='circle'?'100%':'';const mt=document.querySelector('meta[name=theme-color]');if(mt)mt.content=(cs.getPropertyValue('--bar')||'#fff').trim()}
+function openSet(){buildTh();$('#sfoot').value=S('pfoot','');$('#sviz').checked=S('pviz','1')=='1';$('#svs').value=S('pvs','bars');$('#sname').value=S('pname','Offline Media Player');$('#sacc').value=S('pacc','#ff8800');$('#sspd').value=S('pspd','1');$('#sskip').value=S('pskip','10');$('#sres').value=S('pres','always');$('#srot').checked=S('prot','1')=='1';$('#smin').value=S('pmin','60');$('#scall').checked=S('pcall','1')=='1';$('#set').hidden=false}
+$('#sdone').onclick=()=>{$('#set').hidden=true;unl=false};
 $('#sname').oninput=e=>{W('pname',e.target.value.trim()||null);applySet()};
 $('#sacc').oninput=e=>{W('pacc',e.target.value);applySet()};
 $('#srcov').onclick=()=>{W('pcov');applySet()};$('#scov').onclick=()=>$('#cf').click();
@@ -216,13 +219,13 @@ function addSub(f){f.text().then(t=>{const u=URL.createObjectURL(new Blob([/\.sr
 $('#subf').onchange=e=>{if(e.target.files[0])addSub(e.target.files[0]);e.target.value=''};
 const driveAsk=()=>ask('Scan a removable drive','Plug in your SD card or USB drive first. On the next screen open the storage list, pick the drive, then choose a folder.',[['Choose drive',scan,1],['Cancel']]);
 const MENUS={
- Media:()=>[['➕ Add files…',()=>$('#f').click()],['📂 Scan for Media…',scan],['💾 Scan removable drive…',driveAsk],['🔗 Open link…',()=>tog('linkp')],['⚙ Settings',()=>$('#gear').click()]],
+ Media:()=>[['➕ Add files…',()=>$('#f').click()],['📂 Scan for Media…',scan],['💾 Scan removable drive…',driveAsk],['🔗 Open link…',()=>$('#url').focus()],['⚙ Settings',()=>$('#gear').click()]],
  Playback:()=>[['Play / Pause',()=>$('#pp').click()],['Stop',()=>$('#stop').click()],['Previous',()=>go(-1)],['Next',()=>go(1)],['Jump back '+S('pskip',10)+'s',()=>jump(-1)],['Jump forward '+S('pskip',10)+'s',()=>jump(1)],['Shuffle: '+(shuf?'On':'Off'),()=>$('#shuf').click()],['Repeat: '+['Off','All','One'][rep],()=>$('#rep').click()],['Sleep timer: '+$('#slp').textContent.replace('😴 ',''),()=>$('#slp').click()]],
  Audio:()=>[['Equalizer…',()=>tog('eqp')],[v.muted?'Unmute':'Mute',()=>{v.muted=!v.muted}]],
  Video:()=>[['Fullscreen',()=>$('#fs').click()],['Auto-rotate: '+(S('prot','1')=='1'?'On':'Off'),()=>W('prot',S('prot','1')=='1'?'0':'1')],['Reset brightness',()=>{bright=1;$('#bright').style.opacity=0}],['Visualizer: '+(S('pviz','1')=='1'?'On':'Off'),()=>{W('pviz',S('pviz','1')=='1'?'0':'1');applySet()}]],
  Subtitle:()=>[['Add subtitle file…',()=>$('#subf').click()],['Subtitle off',()=>[...v.querySelectorAll('track')].forEach(x=>x.remove())]],
  Tools:()=>[['Equalizer',()=>tog('eqp')],['Scan for Media…',scan],['Check for new files',()=>checkRoots()]],
- View:()=>[['Playlist',()=>tog('plp')],['Equalizer',()=>tog('eqp')],['Open URL box',()=>tog('linkp')]],
+ View:()=>[['Playlist',()=>tog('plp')],['Equalizer',()=>tog('eqp')]],
  Help:()=>[['Gestures',()=>ask('Gestures','Swipe along the bottom of the video: seek\nSwipe up/down on the left side: brightness\nSwipe up/down on the right side: volume\nDouble-tap left or right: skip\nTap once in fullscreen: play / pause',[['OK',null,1]])],['About',()=>ask('About','An offline media player that runs in your browser.\nIt cannot detect a plugged-in drive by itself: use Media > Scan removable drive.',[['OK',null,1]])]]};
 document.querySelectorAll('#menu span').forEach(m=>m.onclick=e=>{e.stopPropagation();const dd=$('#dd');if(!dd.hidden&&dd.dataset.o==m.dataset.m){dd.hidden=true;return}dd.dataset.o=m.dataset.m;dd.innerHTML='';const hd=document.createElement('div');hd.textContent=m.dataset.m;hd.style.cssText='font-weight:600;color:var(--mut);font-size:12px;text-transform:uppercase';dd.append(hd);MENUS[m.dataset.m]().forEach(([l,f])=>{const d=document.createElement('div');d.textContent=l;d.onclick=()=>{dd.hidden=true;f()};dd.append(d)});const r=m.getBoundingClientRect();dd.style.left=Math.max(0,Math.min(r.left,innerWidth-215))+'px';dd.style.top=r.bottom+'px';dd.hidden=false});
 document.addEventListener('click',()=>$('#dd').hidden=true);
@@ -242,6 +245,15 @@ $('#sico').onclick=()=>$('#icf').click();$('#srico').onclick=()=>{W('pico');appl
 $('#icf').onchange=e=>{const f=e.target.files[0];if(f)rs(f,128,d=>{W('pico',d);applySet()});e.target.value=''};
 $('#sfoot').oninput=e=>{W('pfoot',e.target.value.trim()||null);applySet()};$('#sviz').onchange=e=>{W('pviz',e.target.checked?'1':'0');applySet()};$('#svs').onchange=e=>{W('pvs',e.target.value);applySet()};
 applySet();
+// settings lock
+let unl=false;const PWH='89e3d1df3c7be666457b0a74d9f3102521f220b55cb4ac58256da7ecca7ff4d1';
+async function sha(t){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(t));return[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}
+$('#gear').onclick=()=>unl?openSet():ask('Settings locked','Settings are password protected.',[['OK',null,1]]);
+function askPw(){document.querySelectorAll('.ask').forEach(x=>x.remove());const o=document.createElement('div');o.className='ask';const b=document.createElement('div');b.className='box';b.innerHTML='<b>Enter password</b><input id="pw" type="password" autocomplete="off" style="width:100%;margin:12px 0"><div id="pwe" style="color:#c0392b;min-height:18px"></div><div class="row"><button id="pwok" class="p">Unlock</button><button id="pwno">Cancel</button></div>';o.append(b);document.body.append(o);const i=b.querySelector('#pw');i.focus();
+ const go=async()=>{if(await sha(i.value)==PWH){unl=true;o.remove();openSet()}else{b.querySelector('#pwe').textContent='Wrong password';i.value=''}};
+ b.querySelector('#pwok').onclick=go;b.querySelector('#pwno').onclick=()=>o.remove();i.onkeydown=e=>{if(e.key=='Enter')go()}}
+let ft;const fe=$('#foot');fe.addEventListener('pointerdown',()=>{clearTimeout(ft);ft=setTimeout(askPw,5000)});
+['pointerup','pointercancel','pointerleave'].forEach(t=>fe.addEventListener(t,()=>clearTimeout(ft)));fe.addEventListener('contextmenu',e=>e.preventDefault());
 // offline
 if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js');
 </script></body></html>
