@@ -1,7 +1,8 @@
 <!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Offline Media Player</title><link rel="manifest" href="manifest.webmanifest">
-<meta name="theme-color" content="#ffffff"><link rel="icon" href="icon.svg">
+<meta name="theme-color" content="#ffffff"><link rel="icon" href="icon.svg"><link rel="apple-touch-icon" href="icon-192.png">
+<meta name="description" content="Offline audio and video player with a 10-band equalizer, playlists, YouTube and link playback."><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Player">
 <style>
 :root{--cover:url(icon.svg);--bg:#f0f0f0;--bar:#fff;--fg:#1b1b1b;--mut:#666;--acc:#ff8800;--bd:#b9b9b9;--onacc:#fff;--ic:#e67300}
 :root[data-theme=mint]{--bg:#e6f5ee;--bar:#f4fbf8;--acc:#8fd4b5;--bd:#a9cdbd;--onacc:#1f2d27;--ic:#2f8f6b}
@@ -39,7 +40,7 @@ button.p,button.on{background:var(--acc);color:var(--onacc);border-color:#0003}
 h3{margin:12px 0 6px;font-size:12px;color:var(--mut);text-transform:uppercase;letter-spacing:.06em}
 #eq{display:flex;gap:4px;justify-content:space-between;height:130px}
 .b{flex:1;display:flex;flex-direction:column;align-items:center;font-size:10px;color:var(--mut)}
-.b input{-webkit-appearance:slider-vertical;appearance:slider-vertical;writing-mode:vertical-lr;direction:rtl;width:100%;flex:1;min-height:0;accent-color:var(--acc)}
+.b input{writing-mode:vertical-lr;direction:rtl;width:100%;flex:1;min-height:0;accent-color:var(--acc)}
 #pre{display:flex;gap:6px;flex-wrap:wrap}
 #q div{padding:11px 6px;border-bottom:1px solid #eee;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}#q .on{background:var(--acc);color:var(--onacc);font-weight:600}
 .row{display:flex;gap:8px;flex-wrap:wrap}.row input{flex:1}
@@ -66,7 +67,7 @@ h3{margin:12px 0 6px;font-size:12px;color:var(--mut);text-transform:uppercase;le
 <label><input type="checkbox" id="scall"> Hide call recordings &amp; voice notes</label>
 <label><input type="checkbox" id="srot"> Auto-rotate to landscape for videos</label>
 <div class="row" style="margin-top:16px"><button id="sdone" class="p">Done</button></div></div></div>
-<div id="stage" class="cov"><video id="v" playsinline></video><div id="yt"><div id="ytp"></div></div><div id="emb"><iframe id="embf" allow="autoplay; encrypted-media; fullscreen; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div><canvas id="viz"></canvas><div id="bright"></div><div id="hud"></div></div>
+<div id="stage" class="cov"><video id="v" playsinline></video><div id="yt"><div id="ytp"></div></div><div id="emb"><iframe id="embf" allow="autoplay; encrypted-media; fullscreen; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin"></iframe></div><canvas id="viz"></canvas><div id="bright"></div><div id="hud"></div></div>
 <div id="seekrow"><span id="t">--:--</span><input id="seek" type="range" min="0" max="1000" value="0"><span id="d">--:--</span></div>
 <div id="ctl"><button id="pp" class="p">▶</button>
 <span class="g"><button id="prev">⏮</button><button id="stop">⏹</button><button id="next">⏭</button></span>
@@ -254,6 +255,7 @@ function askPw(){document.querySelectorAll('.ask').forEach(x=>x.remove());const 
  b.querySelector('#pwok').onclick=go;b.querySelector('#pwno').onclick=()=>o.remove();i.onkeydown=e=>{if(e.key=='Enter')go()}}
 let ft;const fe=$('#foot');fe.addEventListener('pointerdown',()=>{clearTimeout(ft);ft=setTimeout(askPw,5000)});
 ['pointerup','pointercancel','pointerleave'].forEach(t=>fe.addEventListener(t,()=>clearTimeout(ft)));fe.addEventListener('contextmenu',e=>e.preventDefault());
+if(/[?&]action=scan/.test(location.search))ask('Scan for Media','Scan this device for music and videos?',[['Scan for Media',scan,1],['Later']]);
 // offline
 if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js');
 </script></body></html>
